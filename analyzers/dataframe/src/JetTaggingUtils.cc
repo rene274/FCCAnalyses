@@ -42,11 +42,11 @@ get_flavour(ROOT::VecOps::RVec<fastjet::PseudoJet> in,
         if (result[j] == 21 or result[j] == 0) {
           // if no match before, or matched to gluon, match to
           // this particle (favour quarks over gluons)
-          result[j] = std::abs(parton.PDG);
-        } else if (parton.PDG != 21) {
+          result[j] = parton.PDG;
+        } else if (parton.PDG != 21 and std::abs(result[j]) < std::abs(parton.PDG)) {
           // if matched to quark, and this is a quark, favour
           // heavier flavours
-          result[j] = std::max(result[j], std::abs(parton.PDG));
+          result[j] = parton.PDG;
         } else {
           // if matched to quark, and this is a gluon, keep
           // previous result (favour quark)
