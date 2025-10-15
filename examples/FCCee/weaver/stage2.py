@@ -50,7 +50,7 @@ maxn = 500
 match_flavor = dict()
 for f in flavors:
     match_flavor[f] = False
-    if "H{}{}".format(f, f) in input_file:
+    if "Z{}{}".format(f, f) in input_file:
         match_flavor[f] = True
 
 if True in match_flavor.values():
@@ -60,7 +60,7 @@ else:
     print("ERROR: could not infer jet flavor from file name")
     str_err = "ERROR: please provide input file containing: "
     for f in flavors:
-        str_err += "H{}{} ".format(f, f)
+        str_err += "Z{}{} ".format(f, f)
 
 ## output jet-wise tree
 out_root = TFile(output_file, "RECREATE")
