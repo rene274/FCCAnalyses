@@ -346,6 +346,14 @@ variables_pfcand = {
 
 variables_jet = {
     ### jet based variables
+    "jet_flavour": {
+        "name": "jet_flavour",
+        "title": "flavour_{jet}",
+        "bin": 50,
+        "xmin": -5,
+        "xmax": 5,
+        "scale": "log",
+    },
     "jet_p": {
         "name": "jet_p",
         "title": "p_{jet} [GeV]",
