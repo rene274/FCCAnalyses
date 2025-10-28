@@ -41,7 +41,7 @@ class RDFanalysis:
         df = df.Define("event_invariant_mass", "JetConstituentsUtils::InvariantMass(jet_p4[0], jet_p4[1])")
 
         ## add flavour label
-        df = df.Define("jet_flavour", "JetTaggingUtils::get_flavour({}, Particle)".format(jetClusteringHelper.jets))
+        df = df.Define("jet_flavour", "JetTaggingUtils::get_Zqq_flavour({}, Particle)".format(jetClusteringHelper.jets))
 
         return df
 
