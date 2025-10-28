@@ -14,15 +14,15 @@ def main():
     parser.add_argument(
         "--indir",
         help="path input directory",
-        default="/eos/experiment/fcc/ee/generation/DelphesEvents/winter2023_training/IDEA/",
+        default="/eos/experiment/fcc/ee/generation/DelphesEvents/winter2023/IDEA/",
     )
     parser.add_argument(
         "--outdir",
         help="path output directory",
-        default="/eos/experiment/fcc/ee/jet_flavour_tagging/winter2023/samples_gen_v1",
+        default="/eos/user/r/rkootz/weaver/stage_all",
     )
 
-    parser.add_argument("--sample", help="sample name", default="wzp6_ee_nunuH_HXX_ecm240")
+    parser.add_argument("--sample", help="sample name", default="p8_ee_ZXX_ecm91")
     parser.add_argument("--ncpus", help="number of cpus", type=int, default=64)
     parser.add_argument("--opt", help="option 1: run stage 1, 2: run stage 2, 3: all 4: clean", default="3")
 
@@ -36,7 +36,7 @@ def main():
     ## qq is merge of uu/dd
     flavors = ["bb", "cc", "ss", "gg", "qq", "tautau"]
 
-    outtmpdir = "/tmp/selvaggi/data/stage_all"
+    outtmpdir = "/tmp/rkootz/data/stage_all"
     os.system("rm -rf {}".format(outtmpdir))
     os.system("mkdir -p {}".format(outtmpdir))
     os.system("mkdir -p {}".format(outdir))
@@ -44,7 +44,7 @@ def main():
     ## fill name of stage1 files
     stage1_files = dict()
     for f in flavors:
-        stage1_files[f] = "{}/stage1_H{}.root".format(outtmpdir, f)
+        stage1_files[f] = "{}/stage1_Z{}.root".format(outtmpdir, f)
 
     edm_files = ""
 
@@ -55,7 +55,7 @@ def main():
             sample_f = sample.replace("XX", f)
             edm_files = "{}/{}/*.root".format(indir, sample_f)
             cmd_stage1 = (
-                "fccanalysis run examples/FCCee/weaver/stage1_gen.py --output {} --files-list {} --ncpus {}".format(
+                "fccanalysis run examples/FCCee/weaver/stage1.py --output {} --files-list {} --ncpus {}".format(
                     stage1_files[f], edm_files, ncpus
                 )
             )
@@ -74,13 +74,13 @@ def main():
             commands_stage2 = []
             stage2_files = dict()
 
-            stage2_final_file = "{}/stage2_H{}.root".format(outtmpdir, f)
-            stage2_wild_files = "{}/stage2_H{}_*.root".format(outtmpdir, f)
+            stage2_final_file = "{}/stage2_Z{}.root".format(outtmpdir, f)
+            stage2_wild_files = "{}/stage2_Z{}_*.root".format(outtmpdir, f)
             hadd_cmd = "hadd -f {} {}".format(stage2_final_file, stage2_wild_files)
 
             for i in range(ncpus):
 
-                stage2_files[i] = "{}/stage2_H{}_{}.root".format(outtmpdir, f, i)
+                stage2_files[i] = "{}/stage2_Z{}_{}.root".format(outtmpdir, f, i)
                 nstart = i * nevents_per_thread
                 nend = nstart + nevents_per_thread
 
